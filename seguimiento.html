@@ -241,6 +241,81 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 980px) { .nav { display: none; } }
 
+/* ---------------- Menu do celular ---------------- */
+/* Abaixo de 980px a navegação de cima some. Sem isto aqui, o celular
+   fica sem nenhuma forma de trocar de página. */
+
+.menu { position: relative; display: none; }
+
+@media (max-width: 980px) { .menu { display: block; } }
+
+.menu > summary {
+  list-style: none;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-content: center;
+  gap: 5px;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease);
+}
+
+.menu > summary::-webkit-details-marker { display: none; }
+.menu > summary::marker { content: ""; }
+.menu > summary:hover { border-color: var(--ink); }
+
+.menu__linha {
+  display: block;
+  width: 19px;
+  height: 1.5px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.32s var(--ease-out), opacity 0.2s var(--ease);
+}
+
+/* Aberto, as três barras viram um X. */
+.menu[open] .menu__linha:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.menu[open] .menu__linha:nth-child(2) { opacity: 0; }
+.menu[open] .menu__linha:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.menu__painel {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  z-index: 50;
+  min-width: 232px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 24px 60px -28px rgba(10, 14, 27, 0.45);
+}
+
+.menu__painel a {
+  padding: 0.8rem 0.95rem;
+  border-radius: 3px;
+  font-size: 0.98rem;
+  color: var(--ink-dim);
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.menu__painel a:hover { background: var(--surface-2); color: var(--ink); }
+.menu__painel a.is-here { color: var(--ink); font-weight: 600; }
+
+.menu__painel hr {
+  height: 1px;
+  border: 0;
+  background: var(--line);
+  margin: 0.35rem 0.6rem;
+}
+
+/* Em tela bem estreita o botão de ação disputa espaço com o menu. */
+@media (max-width: 520px) { .topbar .btn { display: none; } }
+
 /* ---------------- Botões ---------------- */
 /* Retangulares e compactos, como no innovapro. */
 
@@ -683,6 +758,23 @@ footer {
       <a href="index.html#contacto">Contacto</a>
     </nav>
     <a class="btn btn--ghost btn--sm" href="https://wa.me/34603941971">Asesoramiento</a>
+
+    <details class="menu">
+      <summary aria-label="Menú" title="Menú">
+        <span class="menu__linha" aria-hidden="true"></span>
+        <span class="menu__linha" aria-hidden="true"></span>
+        <span class="menu__linha" aria-hidden="true"></span>
+      </summary>
+      <nav class="menu__painel" aria-label="Navegación móvil">
+        <a href="index.html">Inicio</a>
+        <a href="tienda.html">Tienda completa</a>
+        <a href="index.html#formacion">Formación</a>
+        <a href="index.html#nosotros">Nosotros</a>
+        <a class="is-here" href="#">Seguimiento</a>
+        <hr />
+        <a href="index.html#contacto">Contacto</a>
+      </nav>
+    </details>
   </div>
 </header>
 
@@ -867,6 +959,47 @@ footer {
     resultado.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 })();
+</script>
+
+<script>
+/* ============================================================
+   Luméa Skin Tech — comportamento compartilhado pelas páginas.
+   Injetado pelos montadores no marcador JS_BASE de cada template.
+   ============================================================ */
+
+(function () {
+  'use strict';
+
+  /* ---------- Menu do celular ----------
+     O menu usa <details>, então abrir e fechar já funciona sem
+     JavaScript. Isto aqui só cobre os dois casos que o <details>
+     sozinho não resolve: fechar ao tocar num link de âncora (que
+     não recarrega a página) e fechar ao tocar fora. */
+
+  var menu = document.querySelector('.menu');
+  if (!menu) return;
+
+  menu.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      menu.open = false;
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (menu.open && !menu.contains(e.target)) {
+      menu.open = false;
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && menu.open) {
+      menu.open = false;
+      var botao = menu.querySelector('summary');
+      if (botao) botao.focus();
+    }
+  });
+})();
+
 </script>
 
 </body>
