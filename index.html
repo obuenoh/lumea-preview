@@ -24,120 +24,172 @@
    Luméa Skin Tech — base compartilhada pelas páginas do site.
    Injetada pelos montadores no marcador CSS_DECK de cada template.
 
-   Direção visual (12/08/2026): claro, arejado e editorial, na linha
-   do innovapro.es — tipografia fina e grande, cards sem moldura,
-   filete + seta no lugar de botão, muito respiro entre seções.
-   O azul continua sendo o da Luméa: copiamos o registro, não a cor.
+   Direção visual (25/08/2026): o manual de identidade visual
+   (identidade/lumea-identidade-visual.pdf) passou a ser a fonte da
+   verdade. Cores, tipografia, elementos e tokens vêm de lá.
+
+   Duas mudanças em relação à versão anterior:
+
+   1. As cores não são mais aproximações — são os pixels do logo.
+      Índigo #4A50EF e aura #54A8F0 são as lâminas do diafragma,
+      prata #B4B8C0 é o "L". Ônix #08080C é a casa do logo.
+
+   2. O fundo padrão é escuro, num degradê contínuo (pedido do
+      cliente). O manual pede porcelana em 60% da tela e avisa
+      "página inteira preta" na lista do que não fazer — a decisão
+      do cliente prevalece, mas o degradê foi construído com escada
+      de tons e halos de índigo/aura justamente para não ler como
+      um bloco preto chapado. O tema claro continua inteiro, vivo
+      em [data-theme="light"].
    ============================================================ */
 
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Jost:wght@300;400;500;600&display=swap");
+
 :root {
-  /* Claro por padrão, mas com escada de tons: branco chapado do começo ao
-     fim lê como página inacabada. Cada degrau puxa levemente para o azul
-     do logo, então a variação parece da marca e não sujeira cinza. */
-  --ground: #FFFFFF;
-  --ground-2: #F7F8FB;   /* off-white, separa seção sem pesar */
-  --tint-1: #F2F5FB;     /* azul pálido, para faixas inteiras */
-  --tint-2: #E9EEF8;     /* azul pálido mais fundo, para placas e destaques */
-  --surface: #FFFFFF;
-  --surface-2: #F2F5FB;
-  --surface-3: #E4EBF7;
+  /* ---- Cor: extraída do próprio símbolo ---- */
+  --onix: #08080C;        /* casa do logo */
+  --onix-2: #12131A;      /* degrau de cima, para placas */
+  --indigo: #4A50EF;      /* lâmina interna — cor de ação */
+  --indigo-deep: #3A40D8; /* hover */
+  --aura: #54A8F0;        /* lâmina externa — voz da marca no escuro */
+  --porcelana: #EEF1F6;
+  --prata: #B4B8C0;       /* a cor do "L" */
+  --nude: #E4CFC6;        /* único tom quente, no máximo 5% da tela */
+  --grafite: #1B1D24;
+  --grafite-2: #5B6072;
+  --claro-2: #8FA0B8;
 
-  --line: rgba(20, 22, 28, 0.13);
-  --line-strong: rgba(20, 22, 28, 0.30);
+  /* ---- Papéis (escuro por padrão) ----
+     A escada existe para o degradê ter degraus: sem ela o escuro
+     lê como um retângulo preto e o logo perde o fundo dele. */
+  --ground: #0A0B12;
+  --ground-2: #07070B;
+  --tint-1: rgba(84, 168, 240, 0.035);
+  --tint-2: rgba(74, 80, 239, 0.055);
+  --surface: #12131A;
+  --surface-2: #171923;
+  --surface-3: #1E212D;
 
-  --ink: #16181D;
-  --ink-dim: #55585F;
-  --ink-faint: #8A8D95;
+  --line: rgba(180, 184, 192, 0.16);
+  --line-strong: rgba(180, 184, 192, 0.34);
 
-  --accent: #2E3FD9;
-  --accent-hover: #1F31C0;
-  --accent-soft: #2C7FD8;
-  --accent-deep: #1B2087;
+  --ink: var(--porcelana);
+  --ink-dim: var(--prata);
+  --ink-faint: #878DA0;
 
-  --glow: rgba(46, 63, 217, 0.18);
-  --sheen: rgba(255, 255, 255, 0.28);
+  /* No escuro, texto azul é aura; ação continua índigo.
+     Trocar isso quebra a legibilidade do público 45+. */
+  --accent: var(--indigo);
+  --accent-hover: #5C62FF;
+  --accent-soft: var(--aura);
+  --accent-deep: #2A2FA8;
 
-  --display: 'Montserrat', 'Avenir Next', 'Segoe UI Variable Display', 'Segoe UI', system-ui, sans-serif;
-  --body: 'Montserrat', 'Avenir Next', 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+  --glow: rgba(74, 80, 239, 0.40);
+  --sheen: rgba(255, 255, 255, 0.08);
+
+  /* ---- Assinatura ---- */
+  /* Feixe: um por tela. Aqui vive no botão primário. */
+  --feixe: linear-gradient(118deg, #4A50EF, #54A8F0);
+  /* Canto padrão de tudo que não é card nem foto: 4px, nada mais.
+     O corte diafragma é gesto de peça grande — num chip de 30px de
+     altura ele vira um chanfro torto, não uma lâmina. */
+  --canto: 4px;
+  /* Corte diafragma: repete a curva da lâmina em cards e fotos.
+     Sempre o mesmo canto, o superior direito. */
+  --arco: 4px 64px 4px 4px;
+  --arco-md: 4px 32px 4px 4px;   /* mesma lâmina em peça menor */
+  --sombra: 0 22px 60px -28px rgba(0, 0, 0, 0.72);
+  --foco: 0 0 0 3px rgba(74, 80, 239, 0.26);
+
+  /* ---- Tipografia ----
+     Fraunces só em título grande (nunca caixa-alta, nunca abaixo de
+     20px). Jost em todo o resto — é o DNA do wordmark do logo. */
+  --serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --display: "Jost", "Century Gothic", "Segoe UI", system-ui, sans-serif;
+  --body: "Jost", "Century Gothic", "Segoe UI", system-ui, sans-serif;
+  --sans: var(--display);
+
+  --track-rotulo: 0.18em;
 
   --gutter: clamp(1.25rem, 5vw, 6rem);
-  --max: 1280px;
+  --max: 1180px;
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* O escuro continua disponível — é a identidade do logo e serve para
-   faixas pontuais e para quem preferir o tema escuro. */
-:root[data-theme="dark"] {
-  --ground: #0A0E1B;
-  --ground-2: #070A14;
-  --tint-1: #0E1424;
-  --tint-2: #131B2E;
-  --surface: #111829;
-  --surface-2: #182136;
-  --surface-3: #1F2A45;
-
-  --line: rgba(146, 170, 255, 0.14);
-  --line-strong: rgba(146, 170, 255, 0.30);
-
-  --ink: #EDF1FC;
-  --ink-dim: #9BA8C9;
-  --ink-faint: #6C789C;
-
-  --accent: #4A5CF5;
-  --accent-hover: #5A6BFF;
-  --accent-soft: #63B4F2;
-  --accent-deep: #2A2FA8;
-
-  --glow: rgba(74, 92, 245, 0.40);
-  --sheen: rgba(255, 255, 255, 0.10);
-}
-
+/* O claro continua inteiro: é o que o manual pede como padrão e
+   serve para quem preferir o tema claro. */
 :root[data-theme="light"] {
-  --ground: #FFFFFF;
-  --ground-2: #F7F8FB;
-  --tint-1: #F2F5FB;
-  --tint-2: #E9EEF8;
+  --ground: #EEF1F6;
+  --ground-2: #E6EBF3;
+  --tint-1: rgba(74, 80, 239, 0.04);
+  --tint-2: rgba(74, 80, 239, 0.075);
   --surface: #FFFFFF;
-  --surface-2: #F2F5FB;
-  --surface-3: #E4EBF7;
-  --line: rgba(20, 22, 28, 0.13);
-  --line-strong: rgba(20, 22, 28, 0.30);
-  --ink: #16181D;
-  --ink-dim: #55585F;
-  --ink-faint: #8A8D95;
-  --accent: #2E3FD9;
-  --accent-hover: #1F31C0;
-  --accent-soft: #2C7FD8;
-  --accent-deep: #1B2087;
-  --glow: rgba(46, 63, 217, 0.18);
-  --sheen: rgba(255, 255, 255, 0.28);
+  --surface-2: #F4F6FB;
+  --surface-3: #E7ECF6;
+
+  --line: rgba(27, 29, 36, 0.14);
+  --line-strong: rgba(27, 29, 36, 0.32);
+
+  --ink: var(--grafite);
+  --ink-dim: #4C5062;
+  --ink-faint: #7A8095;
+
+  /* No claro, texto azul é índigo. Aura sobre porcelana: nunca. */
+  --accent: var(--indigo);
+  --accent-hover: var(--indigo-deep);
+  --accent-soft: var(--indigo-deep);
+  --accent-deep: #23278F;
+
+  --glow: rgba(74, 80, 239, 0.20);
+  --sheen: rgba(255, 255, 255, 0.30);
+  --sombra: 0 18px 50px -24px rgba(26, 32, 60, 0.45);
+  --foco: 0 0 0 3px rgba(74, 80, 239, 0.16);
 }
 
 html { scroll-behavior: smooth; }
 
+/* ---------------- O degradê ---------------- */
+/* Uma superfície só, presa na viewport: rolando a página o fundo não
+   se repete nem emenda, então a tela inteira lê como um degradê
+   contínuo em vez de faixas empilhadas. Os três halos são as lâminas
+   do diafragma difundidas — é de onde vem o azul, não de uma cor de
+   fundo azul. */
 body {
-  /* Uma névoa azul quase imperceptível no topo: o branco puro sozinho
-     lê como página não terminada. */
   background:
-    radial-gradient(1100px 560px at 78% -8%, rgba(46, 63, 217, 0.07), transparent 62%),
-    var(--ground);
+    radial-gradient(1200px 720px at 10% -12%, rgba(74, 80, 239, 0.20), transparent 62%),
+    radial-gradient(1020px 640px at 92% 6%, rgba(84, 168, 240, 0.11), transparent 60%),
+    radial-gradient(1500px 900px at 46% 112%, rgba(74, 80, 239, 0.10), transparent 66%),
+    linear-gradient(177deg, #12131C 0%, #0C0D15 30%, #08080C 58%, #090A11 82%, #0C0D16 100%);
   background-attachment: fixed;
+  background-color: var(--onix);
   color: var(--ink);
   font-family: var(--body);
   font-size: 1rem;
-  line-height: 1.62;
+  font-weight: 300;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   transition: background-color 0.45s var(--ease), color 0.45s var(--ease);
 }
 
-a { color: inherit; text-decoration: none; }
-::selection { background: var(--accent); color: #fff; }
+:root[data-theme="light"] body {
+  background:
+    radial-gradient(1100px 600px at 82% -10%, rgba(74, 80, 239, 0.08), transparent 62%),
+    radial-gradient(900px 520px at 8% 4%, rgba(84, 168, 240, 0.06), transparent 58%),
+    linear-gradient(180deg, #F6F8FC 0%, #EEF1F6 42%, #E9EDF5 100%);
+  background-attachment: fixed;
+  background-color: var(--porcelana);
+}
 
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--indigo); color: #fff; }
+
+/* Foco obrigatório em todo campo, link e botão — 2px de contorno com
+   3px de deslocamento, como manda o manual. */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--indigo);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -149,14 +201,47 @@ a { color: inherit; text-decoration: none; }
   padding-inline: var(--gutter);
 }
 
-/* Kicker discreto: menor tracking que antes, mais editorial. */
+/* Rótulo: Jost 500, caixa-alta, tracking 0,18em — o mesmo
+   espaçamento do wordmark do logo. */
 .eyebrow {
+  font-family: var(--display);
   font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
+  font-weight: 500;
+  letter-spacing: var(--track-rotulo);
   text-transform: uppercase;
   color: var(--ink-faint);
   margin: 0;
+}
+
+/* ---------------- Arco de luz ---------------- */
+/* Filete de 1px que se acende no meio. Separa seção no lugar de linha
+   cinza — é o terceiro gesto tirado do símbolo. */
+
+.arco-luz {
+  position: relative;
+  border-top: 0;
+}
+
+.arco-luz::before,
+.band--soft::before,
+.band--tint::before,
+.band--tint2::before,
+.band--deep::before,
+.section--hairline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--prata) 34%, transparent) 32%,
+    color-mix(in srgb, var(--aura) 60%, transparent) 50%,
+    color-mix(in srgb, var(--prata) 34%, transparent) 68%,
+    transparent 100%);
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* ---------------- Barra superior ---------------- */
@@ -165,8 +250,8 @@ a { color: inherit; text-decoration: none; }
   position: sticky;
   top: 0;
   z-index: 40;
-  background: color-mix(in srgb, var(--ground) 88%, transparent);
-  backdrop-filter: blur(16px) saturate(140%);
+  background: color-mix(in srgb, var(--ground) 82%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
   border-bottom: 1px solid var(--line);
 }
 
@@ -178,30 +263,49 @@ a { color: inherit; text-decoration: none; }
   min-height: 84px;
 }
 
+/* O wordmark ao lado do símbolo repete a régua do logo: geométrica,
+   caixa-alta, bem espaçada. */
 .brandmark {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.85rem;
   font-family: var(--display);
-  font-size: 0.92rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: var(--track-rotulo);
   text-transform: uppercase;
   white-space: nowrap;
+  color: var(--ink);
 }
 
-/* Sem animação: o logo fica parado. */
-.brandmark__logo { width: 42px; height: 42px; flex: none; display: block; }
+/* Área de respiro: um espaço igual à altura do "L" de todos os lados.
+   Nada entra nessa margem. Sem animação: o logo fica parado. */
+.brandmark__logo {
+  width: 42px;
+  height: 42px;
+  flex: none;
+  display: block;
+  margin: 6px;
+}
 
-/* Claro é o padrão: mostramos a marca com o "L" escuro. */
-.logo--dark { display: none; }
-.logo--light { display: block; }
-:root[data-theme="dark"] .logo--light { display: none; }
-:root[data-theme="dark"] .logo--dark { display: block; }
+/* Escuro é o padrão, então entra o logo de "L" prata. */
+.logo--light { display: none; }
+.logo--dark { display: block; }
+:root[data-theme="light"] .logo--dark { display: none; }
+:root[data-theme="light"] .logo--light { display: block; }
+
+/* Em fundo claro, a logo vai dentro de uma placa ônix. */
+:root[data-theme="light"] .brandmark__logo {
+  margin: 0;
+  padding: 6px;
+  background: var(--onix);
+  border-radius: var(--canto);
+  box-sizing: content-box;
+}
 
 @media (max-width: 620px) {
-  .brandmark { font-size: 0.74rem; letter-spacing: 0.18em; gap: 0.6rem; }
-  .brandmark__logo { width: 34px; height: 34px; }
+  .brandmark { font-size: 0.68rem; letter-spacing: 0.14em; gap: 0.6rem; }
+  .brandmark__logo { width: 34px; height: 34px; margin: 4px; }
   .topbar__inner { min-height: 68px; }
 }
 
@@ -210,7 +314,7 @@ a { color: inherit; text-decoration: none; }
 .nav {
   display: flex;
   gap: clamp(1rem, 2.2vw, 2.2rem);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--ink-dim);
 }
 
@@ -227,7 +331,7 @@ a { color: inherit; text-decoration: none; }
   bottom: 0;
   width: 100%;
   height: 1px;
-  background: var(--accent);
+  background: var(--feixe);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.4s var(--ease-out);
@@ -236,7 +340,7 @@ a { color: inherit; text-decoration: none; }
 .nav a:hover { color: var(--ink); }
 .nav a:hover::after { transform: scaleX(1); }
 
-.nav .is-here { color: var(--ink); font-weight: 600; }
+.nav .is-here { color: var(--ink); font-weight: 500; }
 .nav .is-here::after { transform: scaleX(1); }
 
 @media (max-width: 980px) { .nav { display: none; } }
@@ -257,14 +361,14 @@ a { color: inherit; text-decoration: none; }
   place-content: center;
   gap: 5px;
   border: 1px solid var(--line-strong);
-  border-radius: 3px;
+  border-radius: var(--canto);
   cursor: pointer;
   transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease);
 }
 
 .menu > summary::-webkit-details-marker { display: none; }
 .menu > summary::marker { content: ""; }
-.menu > summary:hover { border-color: var(--ink); }
+.menu > summary:hover { border-color: var(--accent-soft); }
 
 .menu__linha {
   display: block;
@@ -289,22 +393,23 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   padding: 0.4rem;
-  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  backdrop-filter: blur(18px);
   border: 1px solid var(--line);
-  border-radius: 4px;
-  box-shadow: 0 24px 60px -28px rgba(10, 14, 27, 0.45);
+  border-radius: var(--arco);
+  box-shadow: var(--sombra);
 }
 
 .menu__painel a {
   padding: 0.8rem 0.95rem;
   border-radius: 3px;
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   color: var(--ink-dim);
   transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
 }
 
 .menu__painel a:hover { background: var(--surface-2); color: var(--ink); }
-.menu__painel a.is-here { color: var(--ink); font-weight: 600; }
+.menu__painel a.is-here { color: var(--ink); font-weight: 500; }
 
 .menu__painel hr {
   height: 1px;
@@ -317,7 +422,8 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 520px) { .topbar .btn { display: none; } }
 
 /* ---------------- Botões ---------------- */
-/* Retangulares e compactos, como no innovapro. */
+/* Rótulo em Jost 500 caixa-alta. O primário é único por tela e é o
+   lugar do feixe — o gradiente índigo→aura não aparece em mais nada. */
 
 .btn {
   position: relative;
@@ -327,30 +433,35 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   gap: 0.7rem;
   padding: 0.95rem 1.7rem;
-  border-radius: 3px;
+  border-radius: var(--canto);
   font-family: var(--display);
   font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.13em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   border: 1px solid transparent;
   cursor: pointer;
   transition: transform 0.3s var(--ease-out),
               box-shadow 0.4s var(--ease),
               color 0.3s var(--ease),
-              background-color 0.3s var(--ease),
               border-color 0.3s var(--ease);
 }
 
 .btn--primary {
-  background: var(--accent);
+  background: var(--feixe);
+  background-size: 160% 160%;
+  background-position: 0% 50%;
   color: #fff;
+  transition: transform 0.3s var(--ease-out),
+              box-shadow 0.4s var(--ease),
+              background-position 0.6s var(--ease);
 }
 
+/* Hover: índigo escurecido, mais 2px de subida. */
 .btn--primary:hover {
-  background: var(--accent-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 12px 28px -16px var(--glow);
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -18px var(--glow);
 }
 
 .btn--ghost {
@@ -360,13 +471,20 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn--ghost:hover {
-  border-color: var(--ink);
-  background: var(--ink);
-  color: var(--ground);
-  transform: translateY(-1px);
+  border-color: var(--accent-soft);
+  color: var(--accent-soft);
+  transform: translateY(-2px);
 }
 
-.btn--sm { padding: 0.72rem 1.25rem; font-size: 0.67rem; letter-spacing: 0.12em; }
+.btn--sm { padding: 0.72rem 1.25rem; font-size: 0.67rem; letter-spacing: 0.13em; }
+
+.btn[disabled], .btn.is-off {
+  background: #2A2D38;
+  color: color-mix(in srgb, var(--prata) 45%, transparent);
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
 
 .btn .arrow { transition: transform 0.35s var(--ease-out); }
 .btn:hover .arrow { transform: translateX(5px); }
@@ -374,39 +492,49 @@ a { color: inherit; text-decoration: none; }
 .actions { display: flex; flex-wrap: wrap; gap: 0.85rem; }
 
 /* ---------------- Faixas de tom ---------------- */
-/* Alternar o fundo entre seções é o que tira o ar de página crua.
-   Cada faixa também recebe um filete no topo, para o degrau ficar nítido. */
+/* No escuro as faixas são véus translúcidos, não blocos opacos: o
+   degradê do fundo continua atravessando a página inteira e o degrau
+   entre seções vem do arco de luz, não de uma emenda de cor. */
 
-.band--soft  { background: var(--ground-2); border-top: 1px solid var(--line); }
-.band--tint  { background: var(--tint-1);   border-top: 1px solid var(--line); }
-.band--tint2 { background: var(--tint-2);   border-top: 1px solid var(--line); }
+.band--soft,
+.band--tint,
+.band--tint2,
+.band--deep,
+.section--hairline { position: relative; }
 
-/* A faixa profunda é o contraponto do claro: um único bloco escuro na
-   página, no fecho. Redefine os tokens localmente, então tudo que está
-   dentro se adapta sozinho, inclusive no tema escuro. */
+.band--soft  { background: rgba(255, 255, 255, 0.018); }
+.band--tint  { background: var(--tint-1); }
+.band--tint2 { background: var(--tint-2); }
+
+:root[data-theme="light"] .band--soft { background: rgba(27, 29, 36, 0.025); }
+
+/* A faixa profunda é o poço do degradê: onde o ônix chega ao fundo e
+   o logo tem a casa dele. Redefine os tokens localmente, então tudo
+   que está dentro se adapta sozinho, inclusive no tema claro. */
 .band--deep {
-  --ground: #0A0E1B;
-  --ground-2: #070A14;
-  --surface: #111829;
-  --surface-2: #182136;
-  --surface-3: #1F2A45;
-  --line: rgba(146, 170, 255, 0.16);
-  --line-strong: rgba(146, 170, 255, 0.34);
-  --ink: #EDF1FC;
-  --ink-dim: #9BA8C9;
-  --ink-faint: #6C789C;
-  --accent: #4A5CF5;
-  --accent-hover: #5A6BFF;
-  --accent-soft: #63B4F2;
-  --glow: rgba(74, 92, 245, 0.42);
-  --sheen: rgba(255, 255, 255, 0.10);
+  --ground: #08080C;
+  --ground-2: #050508;
+  --surface: #12131A;
+  --surface-2: #171923;
+  --surface-3: #1E212D;
+  --line: rgba(180, 184, 192, 0.18);
+  --line-strong: rgba(180, 184, 192, 0.36);
+  --ink: var(--porcelana);
+  --ink-dim: var(--prata);
+  --ink-faint: #878DA0;
+  --accent: var(--indigo);
+  --accent-hover: #5C62FF;
+  --accent-soft: var(--aura);
+  --glow: rgba(74, 80, 239, 0.42);
+  --sheen: rgba(255, 255, 255, 0.08);
 
-  background: var(--ground);
+  background:
+    radial-gradient(900px 420px at 50% 0%, rgba(74, 80, 239, 0.16), transparent 68%),
+    linear-gradient(180deg, rgba(3, 3, 6, 0.55) 0%, rgba(3, 3, 6, 0.86) 55%, #05050A 100%);
   color: var(--ink);
 }
 
 /* ---------------- Link com filete e seta ---------------- */
-/* A assinatura do innovapro: um traço fino, o rótulo e a seta. */
 
 .arrow-link {
   display: flex;
@@ -416,7 +544,7 @@ a { color: inherit; text-decoration: none; }
   margin-top: auto;
   padding-top: 0.9rem;
   border-top: 1px solid var(--line);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   color: var(--ink);
   transition: border-color 0.35s var(--ease), color 0.3s var(--ease);
 }
@@ -424,20 +552,37 @@ a { color: inherit; text-decoration: none; }
 .arrow-link i {
   font-style: normal;
   transition: transform 0.4s var(--ease-out);
-  color: var(--accent);
+  color: var(--accent-soft);
 }
 
-.arrow-link:hover { border-color: var(--ink); }
+.arrow-link:hover { border-color: var(--accent-soft); color: var(--accent-soft); }
 .arrow-link:hover i { transform: translateX(6px); }
+
+/* ---------------- Fotos de produto ---------------- */
+/* As fotos do catálogo são recortes sobre branco. Sobre o ônix elas
+   viram retângulos brancos, então ganham placa de porcelana — que é
+   exatamente onde o manual quer superfície clara — com o corte
+   diafragma no canto superior direito. */
+
+.unit__shot,
+.card__shot {
+  border-radius: var(--arco);
+  background: var(--porcelana);
+  border: 1px solid rgba(180, 184, 192, 0.22);
+}
+
+.unit:hover .unit__shot,
+.card:hover .card__shot { background: #F7F9FC; }
 
 /* ---------------- Rodapé ---------------- */
 
 footer {
+  position: relative;
   border-top: 1px solid var(--line);
   padding-block: 3rem 4rem;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   color: var(--ink-faint);
-  background: var(--ground-2);
+  background: linear-gradient(180deg, rgba(3, 3, 6, 0.5), #05050A);
 }
 
 .footer__inner {
@@ -449,9 +594,11 @@ footer {
 
 .footer__links { display: flex; flex-wrap: wrap; gap: 1.4rem; }
 .footer__links a { transition: color 0.3s var(--ease); }
-.footer__links a:hover { color: var(--ink); }
+.footer__links a:hover { color: var(--accent-soft); }
 
 /* ---------------- Revelação em rolagem ---------------- */
+/* Movimento: só o halo do hero e a subida dos elementos. Nada mais
+   se mexe, e tudo desliga sob prefers-reduced-motion. */
 
 .reveal {
   opacity: 0;
@@ -479,24 +626,27 @@ footer {
 
   :root { --step-1: 1.1rem; }
 
-  /* Tipografia fina e grande, como no innovapro: o peso vem do tamanho
-     e do espaço em volta, não da gordura da letra. */
+  /* Fraunces 300 nos títulos: serifada de eixo óptico variável, o
+     contraste muda sozinho conforme o tamanho. Nunca em caixa-alta e
+     nunca abaixo de 20px — abaixo disso a interface é Jost. */
   h1 {
-    font-family: var(--display);
-    font-size: clamp(2rem, 1.05rem + 3.4vw, 3.7rem);
+    font-family: var(--serif);
+    font-optical-sizing: auto;
+    font-size: clamp(2.6rem, 6vw, 4.4rem);
     font-weight: 300;
-    line-height: 1.1;
-    letter-spacing: -0.022em;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
     text-wrap: balance;
     margin: 0;
   }
 
   h2 {
-    font-family: var(--display);
-    font-size: clamp(1.65rem, 1.2rem + 2vw, 2.5rem);
+    font-family: var(--serif);
+    font-optical-sizing: auto;
+    font-size: clamp(2rem, 4.2vw, 3.1rem);
     font-weight: 300;
-    line-height: 1.18;
-    letter-spacing: -0.018em;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
     text-wrap: balance;
     margin: 0;
   }
@@ -527,20 +677,30 @@ footer {
     opacity: 0.72;
   }
 
-  :root[data-theme="dark"] .hero__stage { opacity: 0.95; }
+  :root:not([data-theme="light"]) .hero__stage { opacity: 0.95; }
 
   #gimbal { display: block; width: 100%; height: 100%; }
 
+  /* Véu que segura o texto por cima do feixe. Translúcido de
+     propósito: o degradê do fundo precisa continuar aparecendo, senão
+     o hero vira um retângulo chapado colado no resto da página. */
   .hero::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     background: linear-gradient(100deg,
-      color-mix(in srgb, var(--ground) 96%, transparent) 0%,
-      color-mix(in srgb, var(--ground) 82%, transparent) 42%,
-      transparent 78%);
+      rgba(8, 8, 12, 0.90) 0%,
+      rgba(8, 8, 12, 0.62) 44%,
+      transparent 80%);
     pointer-events: none;
+  }
+
+  :root[data-theme="light"] .hero::after {
+    background: linear-gradient(100deg,
+      rgba(238, 241, 246, 0.94) 0%,
+      rgba(238, 241, 246, 0.78) 44%,
+      transparent 80%);
   }
 
   .hero__content { display: flex; flex-direction: column; gap: 1.25rem; max-width: 40ch; }
@@ -552,11 +712,11 @@ footer {
     gap: 0.65rem;
     align-self: flex-start;
     font-size: 0.76rem;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.18em;
     color: var(--accent-soft);
     padding: 0.42rem 0.9rem 0.42rem 0.75rem;
     border: 1px solid color-mix(in srgb, var(--accent-soft) 34%, transparent);
-    border-radius: 50px;
+    border-radius: var(--canto);
     background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
@@ -581,24 +741,26 @@ footer {
   /* Só as duas palavras que importam recebem a luz. */
   h1 .whole { display: block; font-weight: 400; }
 
+  /* Itálico só na palavra que carrega a promessa — uma por título.
+     A rampa é a do feixe invertida: aura na entrada, índigo no fim. */
   h1 .lit {
     position: relative;
-    font-style: normal;
-    font-weight: 500;
-    background: linear-gradient(96deg, var(--accent-soft) 0%, var(--accent) 55%, var(--accent-deep) 100%);
+    font-style: italic;
+    font-weight: 400;
+    background: linear-gradient(96deg, var(--aura) 0%, var(--indigo) 62%, var(--indigo) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
+  /* Arco de luz sob a promessa: filete de 1px que acende no meio. */
   h1 .lit::after {
     content: "";
     position: absolute;
     left: 0; right: 0;
-    bottom: -0.1em;
-    height: 3px;
-    border-radius: 3px;
-    background: linear-gradient(90deg, var(--accent-soft), var(--accent) 55%, transparent);
+    bottom: -0.08em;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--aura) 38%, var(--indigo) 72%, transparent);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 1.15s var(--ease-out) 0.45s;
@@ -606,8 +768,9 @@ footer {
 
   h1.in .lit::after { transform: scaleX(1); }
 
+  /* No claro, texto azul é índigo — aura sobre porcelana nunca. */
   :root[data-theme="light"] h1 .lit {
-    background: linear-gradient(96deg, var(--accent-soft) 0%, var(--accent) 50%, var(--accent-deep) 100%);
+    background: linear-gradient(96deg, var(--indigo) 0%, var(--indigo-deep) 60%, var(--accent-deep) 100%);
     -webkit-background-clip: text;
     background-clip: text;
   }
@@ -637,8 +800,8 @@ footer {
     align-items: center;
     gap: 0.7rem;
     font-size: 0.63rem;
-    font-weight: 600;
-    letter-spacing: 0.24em;
+    font-weight: 500;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--ink-faint);
     transition: color 0.3s var(--ease);
@@ -667,13 +830,13 @@ footer {
     gap: 0.5rem;
     font-family: var(--display);
     font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
+    font-weight: 500;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--ink);
     padding: 0.45rem 0.85rem;
     border: 1px solid var(--line-strong);
-    border-radius: 8px;
+    border-radius: var(--canto);
     background: color-mix(in srgb, var(--surface) 70%, transparent);
     transition: border-color 0.3s var(--ease), transform 0.3s var(--ease-out);
   }
@@ -734,8 +897,9 @@ footer {
   .modo:hover .modo__icon { transform: translateY(-2px) scale(1.08); }
 
   .modo h3 {
-    font-family: var(--display);
-    font-size: clamp(1.3rem, 1rem + 0.8vw, 1.6rem);
+    font-family: var(--serif);
+    font-optical-sizing: auto;
+    font-size: clamp(1.35rem, 1rem + 0.8vw, 1.6rem);
     font-weight: 300;
     letter-spacing: -0.01em;
     color: var(--ink);
@@ -748,7 +912,7 @@ footer {
 
   /* Mais ar entre seções: é o que dá o ar editorial. */
   .section { padding-block: clamp(5rem, 13vh, 10rem); }
-  .section--hairline { border-top: 1px solid var(--line); }
+  .section--hairline { border-top: 0; }
 
   .section__head {
     display: flex;
@@ -821,18 +985,24 @@ footer {
     flex-direction: column;
   }
 
+  /* As fotos do catálogo são recortes sobre branco. Sobre o ônix elas
+     virariam retângulos brancos, então cada uma ganha placa de
+     porcelana — a superfície clara que o manual reserva para foto —
+     com o corte diafragma no canto superior direito. */
   .unit__shot {
     display: grid;
     place-items: center;
     aspect-ratio: 4 / 3;
-    background: var(--surface-2);
+    background: var(--porcelana);
+    border: 1px solid rgba(180, 184, 192, 0.22);
+    border-radius: var(--arco);
     padding: 1.4rem;
     position: relative;
     overflow: hidden;
-    transition: background-color 0.4s var(--ease);
+    transition: background-color 0.4s var(--ease), border-color 0.4s var(--ease);
   }
 
-  .unit:hover .unit__shot { background: var(--surface-3); }
+  .unit:hover .unit__shot { background: #F8FAFD; border-color: color-mix(in srgb, var(--aura) 45%, transparent); }
 
   .unit__shot img {
     max-width: 100%; max-height: 100%;
@@ -848,14 +1018,14 @@ footer {
     position: absolute;
     inset: 0;
     opacity: 0;
-    background: radial-gradient(320px circle at var(--mx) var(--my), rgba(74, 92, 245, 0.15), transparent 65%);
+    background: radial-gradient(320px circle at var(--mx) var(--my), rgba(74, 80, 239, 0.14), transparent 65%);
     transition: opacity 0.45s var(--ease);
     pointer-events: none;
   }
 
   .unit:hover .unit__shot::after { opacity: 1; }
 
-  .unit__sinfoto { font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: #9AA1B4; }
+  .unit__sinfoto { font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: #5B6072; }
 
   .unit__body {
     display: flex;
@@ -883,7 +1053,7 @@ footer {
   }
 
   .unit__price {
-    font-family: var(--display);
+    font-family: var(--serif);
     font-size: 1.4rem;
     font-weight: 300;
     letter-spacing: -0.02em;
@@ -983,7 +1153,7 @@ footer {
     align-items: start;
     padding: 0.85rem 0.9rem 1.05rem 0.35rem;
     border-bottom: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: var(--canto);
     color: var(--ink-dim);
     font-size: 0.94rem;
     line-height: 1.6;
@@ -1029,10 +1199,11 @@ footer {
 
   @media (max-width: 760px) { .founder { grid-template-columns: 1fr; } }
 
+  /* Foto também leva o corte diafragma, no mesmo canto de sempre. */
   .founder__photo {
-    width: 84px; height: 84px;
+    width: 104px; height: 104px;
     flex: none;
-    border-radius: 50%;
+    border-radius: var(--arco-md);
     object-fit: cover;
     border: 1px solid var(--line-strong);
     filter: saturate(0.94);
@@ -1040,15 +1211,18 @@ footer {
   }
 
   .founder:hover .founder__photo {
-    transform: scale(1.04);
-    box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 14%, transparent);
+    transform: translateY(-3px);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--aura) 46%, transparent), var(--sombra);
   }
 
   blockquote {
     margin: 0;
-    font-size: clamp(1.3rem, 1.05rem + 1vw, 1.7rem);
+    font-family: var(--serif);
+    font-optical-sizing: auto;
+    font-size: clamp(1.4rem, 1.05rem + 1vw, 1.9rem);
     font-weight: 300;
-    line-height: 1.45;
+    line-height: 1.4;
+    letter-spacing: -0.012em;
     text-wrap: pretty;
   }
 
@@ -1064,7 +1238,7 @@ footer {
 
   /* ---------- Contacto ---------- */
 
-  .contact { position: relative; overflow: hidden; border-top: 1px solid var(--line); }
+  .contact { position: relative; overflow: hidden; border-top: 0; }
 
   .contact::before {
     content: "";
@@ -1113,7 +1287,7 @@ footer {
     height: 48px;
     display: grid;
     place-items: center;
-    border-radius: 13px;
+    border-radius: var(--canto);
     border: 1px solid var(--line-strong);
     color: var(--ink-dim);
     background: color-mix(in srgb, var(--surface) 72%, transparent);
@@ -1867,7 +2041,7 @@ footer {
   var CW = 0, CH = 0;
 
   function isDark() {
-    return document.documentElement.getAttribute('data-theme') === 'dark' ? 1.0 : 0.0;
+    return document.documentElement.getAttribute('data-theme') === 'light' ? 0.0 : 1.0;
   }
 
   function resize() {
