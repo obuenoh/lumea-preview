@@ -19,7 +19,8 @@
   ul, ol { padding: 0; list-style: none; }
 </style>
 </head>
-<body><style>
+<body>
+<style>
 /* ============================================================
    Luméa Skin Tech — base compartilhada pelas páginas do site.
    Injetada pelos montadores no marcador CSS_DECK de cada template.
@@ -393,8 +394,11 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   padding: 0.4rem;
-  background: color-mix(in srgb, var(--surface) 96%, transparent);
-  backdrop-filter: blur(18px);
+  /* Opaco de propósito. A 96% + blur o painel era bonito no desktop, mas
+     no celular ele cobre justamente o título e o texto da página, e o
+     fantasma da letra grande passava por baixo dos itens do menu. Menu de
+     navegação é leitura, não vidro fosco. */
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--arco);
   box-shadow: var(--sombra);
@@ -560,19 +564,24 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------------- Fotos de produto ---------------- */
 /* As fotos do catálogo são recortes sobre branco. Sobre o ônix elas
-   viram retângulos brancos, então ganham placa de porcelana — que é
+   viram retângulos brancos, então ganham placa clara — que é
    exatamente onde o manual quer superfície clara — com o corte
-   diafragma no canto superior direito. */
+   diafragma no canto superior direito.
+
+   A placa é branco puro e sem filete, nas três grades — destaques da
+   home (.unit__shot) e as duas páginas de catálogo (.card__shot).
+   Porcelana atrás de uma foto já recortada em branco desenhava um degrau
+   de tom, e o filete de prata fechava esse degrau num quadrado cinza em
+   volta de cada foto. Pedido do cliente em 26/08/2026, para ficar como no
+   site dele hoje. O corte diafragma (--arco) fica: é a forma da marca,
+   não o tom. */
 
 .unit__shot,
 .card__shot {
   border-radius: var(--arco);
-  background: var(--porcelana);
-  border: 1px solid rgba(180, 184, 192, 0.22);
+  background: #FFFFFF;
+  border: 0;
 }
-
-.unit:hover .unit__shot,
-.card:hover .card__shot { background: #F7F9FC; }
 
 /* ---------------- Rodapé ---------------- */
 
@@ -624,9 +633,8 @@ footer {
   .head { padding-block: clamp(3rem, 9vh, 5.5rem) clamp(1.5rem, 4vh, 2.5rem); }
 
   h1 {
-    font-family: var(--serif);
-    font-optical-sizing: auto;
-    font-size: clamp(2.2rem, 1.3rem + 3vw, 3.4rem);
+    font-family: var(--display);
+    font-size: clamp(2rem, 1.3rem + 3vw, 3.4rem);
     font-weight: 300;
     line-height: 1.08;
     letter-spacing: -0.018em;
@@ -648,22 +656,20 @@ footer {
 
   /* ---------- Formulário ---------- */
 
-  /* Placa onix elevada: sobre o degradê escuro, a caixa precisa ser um
-     degrau acima do fundo para o formulário se destacar. */
+  /* Tom claro azulado: caixa branca sobre página branca não separa nada. */
   .box {
-    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    background: var(--tint-1);
     border: 1px solid var(--line);
-    border-radius: var(--arco);
+    border-radius: 4px;
     padding: clamp(1.6rem, 3.5vw, 2.3rem);
   }
 
-  .box .campo input, .box .aviso { background: var(--surface-2); }
+  .box .campo input, .box .aviso { background: var(--surface); }
 
   .box h2 {
-    font-family: var(--serif);
-    font-optical-sizing: auto;
-    font-size: 1.35rem;
-    font-weight: 400;
+    font-family: var(--display);
+    font-size: 1.15rem;
+    font-weight: 600;
     letter-spacing: 0.01em;
     margin: 0 0 0.4rem;
   }
@@ -683,7 +689,7 @@ footer {
   .campo input {
     background: var(--surface-2);
     border: 1px solid var(--line);
-    border-radius: var(--canto);
+    border-radius: 10px;
     padding: 0.85rem 1rem;
     color: var(--ink);
     font-family: var(--body);
@@ -705,7 +711,7 @@ footer {
     padding: 0.85rem 1rem;
     border-left: 2px solid var(--accent-soft);
     background: var(--surface-2);
-    border-radius: 0 var(--canto) var(--canto) 0;
+    border-radius: 0 8px 8px 0;
     font-size: 0.84rem;
     color: var(--ink-dim);
     line-height: 1.55;
@@ -717,7 +723,7 @@ footer {
     color: #C0392B;
   }
 
-  :root:not([data-theme="light"]) .erro { color: #FF8A93; }
+  :root[data-theme="dark"] .erro { color: #FF8A93; }
 
   .erro[hidden] { display: none; }
 
@@ -736,10 +742,9 @@ footer {
   }
 
   .pedido__ref {
-    font-family: var(--serif);
-    font-optical-sizing: auto;
+    font-family: var(--display);
     font-size: 1.35rem;
-    font-weight: 400;
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.02em;
     margin: 0;
@@ -753,10 +758,10 @@ footer {
     align-items: center;
     gap: 0.5rem;
     padding: 0.42rem 0.9rem;
-    border-radius: var(--canto);
+    border-radius: 50px;
     font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     background: color-mix(in srgb, var(--accent) 18%, transparent);
     color: var(--accent-soft);
@@ -848,17 +853,17 @@ footer {
     gap: 0.5rem;
     margin-bottom: 1.2rem;
     padding: 0.4rem 0.85rem;
-    border-radius: var(--canto);
+    border-radius: 6px;
     background: color-mix(in srgb, #E8A33D 18%, transparent);
     border: 1px solid color-mix(in srgb, #B07818 45%, transparent);
     color: #8A5A0B;
     font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
 
-  :root:not([data-theme="light"]) .demo-tag {
+  :root[data-theme="dark"] .demo-tag {
     color: #E8A33D;
     border-color: color-mix(in srgb, #E8A33D 45%, transparent);
   }
@@ -902,7 +907,8 @@ footer {
     </a>
     <nav class="nav" aria-label="Navegación principal">
       <a href="index.html">Inicio</a>
-      <a href="tienda.html">Tienda</a>
+      <a href="aparatologia.html">Aparatología</a>
+      <a href="productos.html">Productos</a>
       <a href="index.html#formacion">Formación</a>
       <a href="index.html#nosotros">Nosotros</a>
       <a class="is-here" href="#">Seguimiento</a>
@@ -918,7 +924,8 @@ footer {
       </summary>
       <nav class="menu__painel" aria-label="Navegación móvil">
         <a href="index.html">Inicio</a>
-        <a href="tienda.html">Tienda completa</a>
+        <a href="aparatologia.html">Aparatología</a>
+        <a href="productos.html">Productos</a>
         <a href="index.html#formacion">Formación</a>
         <a href="index.html#nosotros">Nosotros</a>
         <a class="is-here" href="#">Seguimiento</a>
@@ -1051,10 +1058,11 @@ footer {
 
 <footer class="band--deep">
   <div class="wrap footer__inner">
-    <span>© 2026 Luméa Skin Tech · Alicante, España</span>
+    <span>© 2026 Luméa Skin Tech · España</span>
     <div class="footer__links">
       <a href="index.html">Inicio</a>
-      <a href="tienda.html">Tienda</a>
+      <a href="aparatologia.html">Aparatología</a>
+      <a href="productos.html">Productos</a>
       <a href="index.html#contacto">Contacto</a>
     </div>
   </div>

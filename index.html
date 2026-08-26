@@ -19,7 +19,8 @@
   ul, ol { padding: 0; list-style: none; }
 </style>
 </head>
-<body><style>
+<body>
+<style>
 /* ============================================================
    Luméa Skin Tech — base compartilhada pelas páginas do site.
    Injetada pelos montadores no marcador CSS_DECK de cada template.
@@ -393,8 +394,11 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   padding: 0.4rem;
-  background: color-mix(in srgb, var(--surface) 96%, transparent);
-  backdrop-filter: blur(18px);
+  /* Opaco de propósito. A 96% + blur o painel era bonito no desktop, mas
+     no celular ele cobre justamente o título e o texto da página, e o
+     fantasma da letra grande passava por baixo dos itens do menu. Menu de
+     navegação é leitura, não vidro fosco. */
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--arco);
   box-shadow: var(--sombra);
@@ -560,19 +564,24 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------------- Fotos de produto ---------------- */
 /* As fotos do catálogo são recortes sobre branco. Sobre o ônix elas
-   viram retângulos brancos, então ganham placa de porcelana — que é
+   viram retângulos brancos, então ganham placa clara — que é
    exatamente onde o manual quer superfície clara — com o corte
-   diafragma no canto superior direito. */
+   diafragma no canto superior direito.
+
+   A placa é branco puro e sem filete, nas três grades — destaques da
+   home (.unit__shot) e as duas páginas de catálogo (.card__shot).
+   Porcelana atrás de uma foto já recortada em branco desenhava um degrau
+   de tom, e o filete de prata fechava esse degrau num quadrado cinza em
+   volta de cada foto. Pedido do cliente em 26/08/2026, para ficar como no
+   site dele hoje. O corte diafragma (--arco) fica: é a forma da marca,
+   não o tom. */
 
 .unit__shot,
 .card__shot {
   border-radius: var(--arco);
-  background: var(--porcelana);
-  border: 1px solid rgba(180, 184, 192, 0.22);
+  background: #FFFFFF;
+  border: 0;
 }
-
-.unit:hover .unit__shot,
-.card:hover .card__shot { background: #F7F9FC; }
 
 /* ---------------- Rodapé ---------------- */
 
@@ -986,23 +995,24 @@ footer {
   }
 
   /* As fotos do catálogo são recortes sobre branco. Sobre o ônix elas
-     virariam retângulos brancos, então cada uma ganha placa de
-     porcelana — a superfície clara que o manual reserva para foto —
-     com o corte diafragma no canto superior direito. */
+     virariam retângulos brancos, então cada uma ganha placa clara — a
+     superfície que o manual reserva para foto — com o corte diafragma no
+     canto superior direito.
+
+     A placa é branco puro e sem filete: porcelana atrás de uma foto já
+     recortada em branco desenhava um degrau de tom, e o filete de prata
+     fechava esse degrau num quadrado cinza em volta de cada foto. Pedido
+     do cliente em 26/08/2026, igual às páginas de catálogo. */
   .unit__shot {
     display: grid;
     place-items: center;
     aspect-ratio: 4 / 3;
-    background: var(--porcelana);
-    border: 1px solid rgba(180, 184, 192, 0.22);
+    background: #FFFFFF;
     border-radius: var(--arco);
     padding: 1.4rem;
     position: relative;
     overflow: hidden;
-    transition: background-color 0.4s var(--ease), border-color 0.4s var(--ease);
   }
-
-  .unit:hover .unit__shot { background: #F8FAFD; border-color: color-mix(in srgb, var(--aura) 45%, transparent); }
 
   .unit__shot img {
     max-width: 100%; max-height: 100%;
@@ -1316,7 +1326,8 @@ footer {
     </a>
     <nav class="nav" aria-label="Navegación principal">
       <a href="#equipos">Equipos</a>
-      <a href="tienda.html">Tienda</a>
+      <a href="aparatologia.html">Aparatología</a>
+      <a href="productos.html">Productos</a>
       <a href="#formacion">Formación</a>
       <a href="#nosotros">Nosotros</a>
       <a href="seguimiento.html">Seguimiento</a>
@@ -1333,7 +1344,8 @@ footer {
       <nav class="menu__painel" aria-label="Navegación móvil">
         <a class="is-here" href="#inicio">Inicio</a>
         <a href="#equipos">Equipos y precios</a>
-        <a href="tienda.html">Tienda completa</a>
+        <a href="aparatologia.html">Aparatología</a>
+        <a href="productos.html">Productos</a>
         <a href="#formacion">Formación</a>
         <a href="#nosotros">Nosotros</a>
         <a href="seguimiento.html">Seguimiento</a>
@@ -1350,7 +1362,7 @@ footer {
     <div class="hero__stage"><canvas id="gimbal" aria-hidden="true"></canvas></div>
     <div class="wrap">
       <div class="hero__content">
-        <p class="eyebrow reveal">Aparatología profesional · Alicante</p>
+        <p class="eyebrow reveal">Aparatología profesional</p>
         <h1 class="reveal">
           <span class="half">La tecnología es la mitad.</span>
           <span class="whole">La otra es <em class="lit">saber usarla</em>.</span>
@@ -1475,8 +1487,11 @@ footer {
           sus protocolos y nuestro soporte detrás.
         </p>
         <div class="actions reveal">
-          <a class="btn btn--ghost btn--sm" href="tienda.html">
-            Ver el catálogo completo <span class="arrow" aria-hidden="true">→</span>
+          <a class="btn btn--ghost btn--sm" href="aparatologia.html">
+            Ver toda la aparatología <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="btn btn--ghost btn--sm" href="productos.html">
+            Cosmética y consumibles <span class="arrow" aria-hidden="true">→</span>
           </a>
         </div>
       </div>
@@ -1664,7 +1679,6 @@ footer {
             </a>
           </div>
         </article>
-
       </div>
 
       <div class="terms">
@@ -1793,7 +1807,7 @@ footer {
       <div class="channels reveal">
         <a href="tel:+34603941971">(+34) 603 941 971</a>
         <a href="mailto:lumeaskintech@gmail.com">lumeaskintech@gmail.com</a>
-        <span>Alicante, España</span>
+        <span>España</span>
       </div>
 
       <div class="redes reveal" aria-label="Redes sociales">
@@ -1809,7 +1823,6 @@ footer {
         <a class="rede" href="https://www.facebook.com/share/16aJrbinWZ/" aria-label="Facebook" title="Facebook" style="--tone: #1877F2;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.5 3h-2A4.5 4.5 0 0 0 9 7.5V10H6.8v3.4H9V21h3.5v-7.6h2.4l.6-3.4h-3V7.8c0-.8.4-1.2 1.2-1.2h1.8V3Z"/></svg>
         </a>
-
       </div>
     </div>
   </section>
@@ -1818,9 +1831,10 @@ footer {
 
 <footer class="band--deep">
   <div class="wrap footer__inner">
-    <span>© 2026 Luméa Skin Tech · Alicante, España</span>
+    <span>© 2026 Luméa Skin Tech · España</span>
     <div class="footer__links">
-      <a href="tienda.html">Tienda</a>
+      <a href="aparatologia.html">Aparatología</a>
+      <a href="productos.html">Productos</a>
       <a href="seguimiento.html">Seguimiento</a>
       <a href="https://www.instagram.com/lumeaskintech/">Instagram</a>
       <a href="#">Aviso legal</a>
