@@ -10,6 +10,76 @@
 <meta property="og:description" content="Consulta el estado de tu pedido Lumea Skin Tech." />
 <meta property="og:type" content="website" />
 <style>
+
+/* ============================================================
+   DIVI THEME DESTRUCTION & FULL SCREEN OVERRIDE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box !important; }
+html { -webkit-text-size-adjust: 100% !important; scroll-behavior: smooth !important; }
+
+/* Fundo dégradé Luméa em tela cheia com iluminação radial fixa */
+html, body, #page-container, #et-main-area, #main-content {
+  background:
+    radial-gradient(1200px 720px at 10% -12%, rgba(74, 80, 239, 0.22), transparent 62%),
+    radial-gradient(1020px 640px at 92% 6%, rgba(84, 168, 240, 0.14), transparent 60%),
+    radial-gradient(1500px 900px at 46% 112%, rgba(74, 80, 239, 0.12), transparent 66%),
+    linear-gradient(177deg, #12131C 0%, #0C0D15 30%, #08080C 58%, #090A11 82%, #0C0D16 100%) !important;
+  background-attachment: fixed !important;
+  background-color: #08080C !important;
+  color: #EEF1F6 !important;
+  font-family: 'Jost', 'Century Gothic', 'Segoe UI', system-ui, sans-serif !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 100vh !important;
+}
+
+/* Forçar largura 100% e neutralizar containers do Divi */
+#page-container,
+#et-boc,
+#et-main-area,
+#main-content,
+#main-content .container,
+#left-area,
+.entry-content,
+article {
+  width: 100% !important;
+  max-width: 100% !important;
+  float: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#main-content .container:before {
+  display: none !important;
+}
+
+/* Ocultar elementos padrão do Divi: Título da página, Header, Topbar, Sidebar e Footer antigo */
+.main_title,
+h1.main_title,
+header#main-header,
+footer#main-footer,
+#top-header,
+#sidebar,
+aside#sidebar,
+.et_pb_widget,
+.widget_block,
+.widget-area,
+#left-area + #sidebar {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+
+
   *, *::before, *::after { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
   body { margin: 0; }
@@ -17,6 +87,155 @@
   button, input, select, textarea { font: inherit; color: inherit; }
   h1, h2, h3, h4, p, ul, ol, figure, blockquote { margin: 0; }
   ul, ol { padding: 0; list-style: none; }
+
+  /* ---------- Footer Exato do Print ---------- */
+  footer.site-footer, footer.band--deep {
+    position: relative !important;
+    padding: clamp(2.5rem, 5vh, 3.8rem) 0 !important;
+    margin-top: clamp(3rem, 6vh, 5rem) !important;
+    background: linear-gradient(180deg, rgba(14, 16, 26, 0.9) 0%, rgba(6, 7, 11, 0.98) 100%) !important;
+    border-top: none !important;
+  }
+
+  footer.site-footer::before, footer.band--deep::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent 0%, rgba(74, 80, 239, 0.35) 20%, rgba(84, 168, 240, 0.75) 50%, rgba(74, 80, 239, 0.35) 80%, transparent 100%) !important;
+    box-shadow: 0 0 16px rgba(84, 168, 240, 0.45) !important;
+  }
+
+  .footer__inner {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 1.5rem !important;
+  }
+
+  .footer__copy {
+    font-family: 'Jost', 'Century Gothic', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 400 !important;
+    color: #8C92A4 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  .footer__links {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: clamp(1.2rem, 2.5vw, 2.2rem) !important;
+  }
+
+  .footer__links a {
+    font-family: 'Jost', 'Century Gothic', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 400 !important;
+    color: #8C92A4 !important;
+    text-decoration: none !important;
+    transition: color 0.25s ease, transform 0.25s ease !important;
+  }
+
+  .footer__links a:hover {
+    color: #FFFFFF !important;
+    transform: translateY(-1px) !important;
+  }
+
+
+
+/* ============================================================
+   LUMÉA SKIN TECH - WhatsApp Floating Button Visual Identity
+   ============================================================ */
+
+#ht-ctc-chat,
+.ht-ctc-chat,
+.ht_ctc_chat_style,
+.ht_ctc_style,
+.ctc_nb {
+  z-index: 9999999 !important;
+}
+
+#ht-ctc-chat .ctc_chip,
+.ht-ctc-chat .ctc_chip,
+.ctc_chip.ctc_s_4,
+.ctc_chip {
+  background: rgba(14, 16, 26, 0.9) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(84, 168, 240, 0.35) !important;
+  border-radius: 9999px !important;
+  padding: 5px 18px 5px 7px !important;
+  height: 48px !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.55),
+    0 0 16px rgba(84, 168, 240, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+}
+
+#ht-ctc-chat .ctc_chip:hover,
+.ht-ctc-chat .ctc_chip:hover,
+.ctc_chip.ctc_s_4:hover,
+.ctc_chip:hover {
+  background: rgba(20, 24, 38, 0.96) !important;
+  border-color: rgba(84, 168, 240, 0.7) !important;
+  box-shadow: 
+    0 12px 32px rgba(0, 0, 0, 0.7),
+    0 0 24px rgba(84, 168, 240, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+}
+
+/* Icon container */
+.ctc_chip .s4_img {
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  filter: drop-shadow(0 2px 6px rgba(32, 176, 56, 0.45)) !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.ctc_chip:hover .s4_img {
+  transform: scale(1.08) rotate(-4deg) !important;
+}
+
+.ctc_chip .s4_img svg {
+  width: 34px !important;
+  height: 34px !important;
+  display: block !important;
+}
+
+/* Remove ugly grey outline in original SVG */
+.ctc_chip .s4_img svg path[fill="#E0E0E0"],
+.ctc_chip .s4_img svg path[style*="#E0E0E0"],
+.ctc_chip .s4_img svg path[style*="#e0e0e0"] {
+  display: none !important;
+  fill: transparent !important;
+}
+
+/* Text Call to Action */
+.ctc_chip .ctc_cta {
+  font-family: 'Jost', 'Century Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 0.88rem !important;
+  font-weight: 500 !important;
+  color: #FFFFFF !important;
+  letter-spacing: 0.03em !important;
+  white-space: nowrap !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+}
+
 </style>
 </head>
 <body>
@@ -627,6 +846,64 @@ footer {
   .reveal { opacity: 1; transform: none; }
 }
 
+
+  /* ---------- Footer Exato do Print ---------- */
+  footer.site-footer, footer.band--deep {
+    position: relative !important;
+    padding: clamp(2.5rem, 5vh, 3.8rem) 0 !important;
+    margin-top: clamp(3rem, 6vh, 5rem) !important;
+    background: linear-gradient(180deg, rgba(14, 16, 26, 0.9) 0%, rgba(6, 7, 11, 0.98) 100%) !important;
+    border-top: none !important;
+  }
+
+  footer.site-footer::before, footer.band--deep::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent 0%, rgba(74, 80, 239, 0.35) 20%, rgba(84, 168, 240, 0.75) 50%, rgba(74, 80, 239, 0.35) 80%, transparent 100%) !important;
+    box-shadow: 0 0 16px rgba(84, 168, 240, 0.45) !important;
+  }
+
+  .footer__inner {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 1.5rem !important;
+  }
+
+  .footer__copy {
+    font-family: 'Jost', 'Century Gothic', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 400 !important;
+    color: #8C92A4 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  .footer__links {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: clamp(1.2rem, 2.5vw, 2.2rem) !important;
+  }
+
+  .footer__links a {
+    font-family: 'Jost', 'Century Gothic', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 400 !important;
+    color: #8C92A4 !important;
+    text-decoration: none !important;
+    transition: color 0.25s ease, transform 0.25s ease !important;
+  }
+
+  .footer__links a:hover {
+    color: #FFFFFF !important;
+    transform: translateY(-1px) !important;
+  }
+
 </style>
 
 <style>
@@ -896,6 +1173,64 @@ footer {
   }
 
   .ayuda__item span { font-size: 0.86rem; color: var(--ink-dim); line-height: 1.5; }
+
+  /* ---------- Footer Exato do Print ---------- */
+  footer.site-footer, footer.band--deep {
+    position: relative !important;
+    padding: clamp(2.5rem, 5vh, 3.8rem) 0 !important;
+    margin-top: clamp(3rem, 6vh, 5rem) !important;
+    background: linear-gradient(180deg, rgba(14, 16, 26, 0.9) 0%, rgba(6, 7, 11, 0.98) 100%) !important;
+    border-top: none !important;
+  }
+
+  footer.site-footer::before, footer.band--deep::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent 0%, rgba(74, 80, 239, 0.35) 20%, rgba(84, 168, 240, 0.75) 50%, rgba(74, 80, 239, 0.35) 80%, transparent 100%) !important;
+    box-shadow: 0 0 16px rgba(84, 168, 240, 0.45) !important;
+  }
+
+  .footer__inner {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 1.5rem !important;
+  }
+
+  .footer__copy {
+    font-family: 'Jost', 'Century Gothic', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 400 !important;
+    color: #8C92A4 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  .footer__links {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: clamp(1.2rem, 2.5vw, 2.2rem) !important;
+  }
+
+  .footer__links a {
+    font-family: 'Jost', 'Century Gothic', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 400 !important;
+    color: #8C92A4 !important;
+    text-decoration: none !important;
+    transition: color 0.25s ease, transform 0.25s ease !important;
+  }
+
+  .footer__links a:hover {
+    color: #FFFFFF !important;
+    transform: translateY(-1px) !important;
+  }
+
 </style>
 
 <header class="topbar">
@@ -1056,14 +1391,17 @@ footer {
 
 </main>
 
-<footer class="band--deep">
+<footer class="band--deep site-footer">
   <div class="wrap footer__inner">
-    <span>© 2026 Luméa Skin Tech · España</span>
+    <span class="footer__copy">© 2026 Luméa Skin Tech · España</span>
     <div class="footer__links">
-      <a href="index.html">Inicio</a>
       <a href="aparatologia.html">Aparatología</a>
       <a href="productos.html">Productos</a>
-      <a href="index.html#contacto">Contacto</a>
+      <a href="seguimiento.html">Seguimiento</a>
+      <a href="https://www.instagram.com/lumeaskintech/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="aviso-legal.html" target="_blank" rel="noopener noreferrer">Aviso legal</a>
+      <a href="privacidad.html" target="_blank" rel="noopener noreferrer">Privacidad</a>
+      <a href="cookies.html" target="_blank" rel="noopener noreferrer">Cookies</a>
     </div>
   </div>
 </footer>
@@ -1145,13 +1483,13 @@ footer {
   });
 
   document.addEventListener('click', function (e) {
-    if (menu.open && !menu.contains(e.target)) {
+    if (menu.open) if (!menu.contains(e.target)) {
       menu.open = false;
     }
   });
 
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && menu.open) {
+    if (e.key === 'Escape') if (menu.open) {
       menu.open = false;
       var botao = menu.querySelector('summary');
       if (botao) botao.focus();
